@@ -23,7 +23,7 @@ defmodule Elastix.HTTP do
 
     content_headers = headers
     |> Keyword.put_new(:"Content-Type", "application/json; charset=UTF-8")
-    |> Keyword.put_new(:"Accept-Encoding", "gzip, deflate")
+    |> Keyword.put_new(:"Accept-Encoding", "gzip")
 
     full_headers = if Elastix.config(:shield) do
       Keyword.put(content_headers, :"Authorization", "Basic " <> Base.encode64("#{username}:#{password}"))

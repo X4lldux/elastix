@@ -33,6 +33,12 @@ defmodule Elastix.HTTPTest do
     assert HTTP.process_response_body(body, []) == %{"some" => "json"}
   end
 
+  test "process_response_body should parse compressed json body into a map" do
+    body = "{\"some\":\"json\"}" |> :zlib.gzip
+    assert HTTP.process_response_body(body, [{"Content-Encoding", "gzip"}]) ==
+      %{"some" => "json"}
+  end
+
   test "process_response_body returns the raw body if it cannot be parsed as json" do
     body = "no_json"
     assert HTTP.process_response_body(body, []) == body
