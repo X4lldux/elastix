@@ -108,7 +108,7 @@ Elastix.Bulk.post elastic_url, lines, index: "my_index", type: "my_type"
 Elastix.Bulk.post_to_iolist elastic_url, lines, index: "my_index", type: "my_type"
 
 # Send raw data directly to the API
-data = Enum.map(lines, fn line -> Poison.encode!(line) <> "\n" end)
+data = Enum.map(lines, fn line -> :jiffy.encode(line) <> "\n" end)
 
 Elastix.Bulk.post_raw elastic_url, data, index: "my_index", type: "my_type"
 

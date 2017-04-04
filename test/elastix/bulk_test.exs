@@ -44,7 +44,7 @@ defmodule Elastix.BulkTest do
     end
 
     test "post bulk with raw body should execute it", %{lines: lines} do
-      {:ok, response} = Bulk.post_raw @test_url, Enum.map(lines, fn line -> Poison.encode!(line) <> "\n" end), index: @test_index, type: "message"
+      {:ok, response} = Bulk.post_raw @test_url, Enum.map(lines, fn line -> :jiffy.encode(line) <> "\n" end), index: @test_index, type: "message"
 
       assert response.status_code == 200
       assert {:ok, %{status_code: 200}} = Document.get(@test_url, @test_index, "message", "1")
@@ -79,7 +79,7 @@ defmodule Elastix.BulkTest do
     end
 
     test "post bulk with raw body should execute it", %{lines: lines} do
-      {:ok, response} = Bulk.post_raw @test_url, Enum.map(lines, fn line -> Poison.encode!(line) <> "\n" end), index: @test_index
+      {:ok, response} = Bulk.post_raw @test_url, Enum.map(lines, fn line -> :jiffy.encode(line) <> "\n" end), index: @test_index
 
       assert response.status_code == 200
       assert {:ok, %{status_code: 200}} = Document.get(@test_url, @test_index, "message", "1")
@@ -114,7 +114,7 @@ defmodule Elastix.BulkTest do
     end
 
     test "post bulk with raw body should execute it", %{lines: lines} do
-      {:ok, response} = Bulk.post_raw @test_url, Enum.map(lines, fn line -> Poison.encode!(line) <> "\n" end)
+      {:ok, response} = Bulk.post_raw @test_url, Enum.map(lines, fn line -> :jiffy.encode(line) <> "\n" end)
 
       assert response.status_code == 200
       assert {:ok, %{status_code: 200}} = Document.get(@test_url, @test_index, "message", "1")

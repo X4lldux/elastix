@@ -11,7 +11,7 @@ defmodule Elastix.Document do
   @doc false
   def index(elastic_url, index_name, type_name, id, data, query_params) do
     elastic_url <> make_path(index_name, type_name, query_params, id)
-    |> HTTP.put(Poison.encode!(data))
+    |> HTTP.put(:jiffy.encode(data))
   end
 
   @doc false
@@ -22,7 +22,7 @@ defmodule Elastix.Document do
   @doc false
   def index_new(elastic_url, index_name, type_name, data, query_params) do
     elastic_url <> make_path(index_name, type_name, query_params)
-    |> HTTP.post(Poison.encode!(data))
+    |> HTTP.post(:jiffy.encode(data))
   end
 
   @doc false
@@ -51,7 +51,7 @@ defmodule Elastix.Document do
   @doc false
   def update(elastic_url, index_name, type_name, id, data, query_params \\ []) do
     elastic_url <> make_path(index_name, type_name, query_params, id, "_update")
-    |> HTTP.post(Poison.encode!(data))
+    |> HTTP.post(:jiffy.encode(data))
   end
 
   @doc false

@@ -46,14 +46,17 @@ defmodule Elastix.HTTP do
   @doc false
   def process_response_body(""), do: ""
   def process_response_body(body) do
-    case body |> to_string |> Poison.decode(poison_options()) do
-      {:error, _} -> body
-      {:ok, decoded} -> decoded
-    end
+    body |> to_string |> :jiffy.decode(jiffy_options())
+  catch
+   {:error, _} -> body
+    # case  do
+    #   {:error, _} -> body
+    #   {:ok, decoded} -> decoded
+    # end
   end
 
-  defp poison_options do
-    Elastix.config(:poison_options, [])
+  defp jiffy_options do
+    Elastix.config(:jiffy_options, [:return_maps, :use_nil])
   end
 
   defp default_httpoison_options do

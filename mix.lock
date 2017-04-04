@@ -9,6 +9,7 @@
   "httpotion": {:hex, :httpotion, "2.1.0"},
   "ibrowse": {:git, "git://github.com/cmullaparthi/ibrowse.git", "d2e369ff42666c3574b8b7ec26f69027895c4d94", [tag: "v4.1.1"]},
   "idna": {:hex, :idna, "1.2.0", "ac62ee99da068f43c50dc69acf700e03a62a348360126260e87f2b54eced86b2", [:rebar3], []},
+  "jiffy": {:hex, :jiffy, "0.14.11", "919a87d491c5a6b5e3bbc27fafedc3a0761ca0b4c405394f121f582fd4e3f0e5", [:rebar3], []},
   "metrics": {:hex, :metrics, "1.0.1", "25f094dea2cda98213cecc3aeff09e940299d950904393b2a29d191c346a8486", [:rebar3], []},
   "mimerl": {:hex, :mimerl, "1.0.2", "993f9b0e084083405ed8252b99460c4f0563e41729ab42d9074fd5e52439be88", [:rebar3], []},
   "mix_test_watch": {:hex, :mix_test_watch, "0.3.0", "25c335ebb241ad06fed34453e340a64f9cc1dfcd7011bd98ef097fdf3d6a92d7", [:mix], [{:fs, "~> 2.12", [hex: :fs, optional: false]}]},

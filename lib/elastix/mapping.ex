@@ -16,7 +16,7 @@ defmodule Elastix.Mapping do
   @doc false
   def put(elastic_url, index_names, type_name, data, query_params) when is_list(index_names) do
     elastic_url <> make_path(index_names, [type_name], query_params)
-    |> HTTP.put(Poison.encode!(data))
+    |> HTTP.put(:jiffy.encode(data))
   end
 
   @doc false

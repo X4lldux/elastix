@@ -9,13 +9,13 @@ defmodule Elastix.Bulk do
     |> HTTP.put(
       Enum.reduce(
         lines, "",
-        fn (line, payload) -> payload <> Poison.encode!(line) <> "\n" end))
+        fn (line, payload) -> payload <> :jiffy.encode(line) <> "\n" end))
   end
 
   def post_to_iolist(elastic_url, lines, options \\ [], query_params \\ []) do
     elastic_url <> make_path(
       Keyword.get(options, :index), Keyword.get(options, :type), query_params)
-    |> HTTP.put(Enum.map(lines, fn line -> Poison.encode!(line) <> "\n" end))
+    |> HTTP.put(Enum.map(lines, fn line -> :jiffy.encode(line) <> "\n" end))
   end
 
   @doc false
