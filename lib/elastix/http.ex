@@ -23,6 +23,7 @@ defmodule Elastix.HTTP do
 
     content_headers = headers
     |> Keyword.put_new(:"Content-Type", "application/json; charset=UTF-8")
+    |> Keyword.put_new(:"Accept-Encoding", "gzip, deflate")
 
     full_headers = if Elastix.config(:shield) do
       Keyword.put(content_headers, :"Authorization", "Basic " <> Base.encode64("#{username}:#{password}"))
@@ -31,28 +32,37 @@ defmodule Elastix.HTTP do
     end
 
     options = Keyword.merge(default_httpoison_options(), options)
-    HTTPoison.Base.request(
-      __MODULE__,
-      method,
-      full_url,
-      body,
-      full_headers,
-      options,
-      &process_status_code/1,
-      &process_headers/1,
-      &process_response_body/1)
+    {ok_err, http_resp} =
+      HTTPoison.Base.request(
+        __MODULE__,
+        method,
+        full_url,
+        body,
+        full_headers,
+        options,
+        &process_status_code/1,
+        &process_headers/1,
+        & &1)
+
+    body = process_response_body http_resp.body, http_resp.headers
+
+    {ok_err, %{http_resp | body: body}}
   end
 
   @doc false
-  def process_response_body(""), do: ""
-  def process_response_body(body) do
-    body |> to_string |> :jiffy.decode(jiffy_options())
-  catch
-   {:error, _} -> body
-    # case  do
-    #   {:error, _} -> body
-    #   {:ok, decoded} -> decoded
-    # end
+  def process_response_body("", _), do: ""
+  def process_response_body(body, headers) do
+    body =
+      case :proplists.lookup("Content-Encoding", headers) do
+        {"Content-Encoding", "gzip"} -> :zlib.gunzip body
+        _                            -> body
+      end
+
+    try do
+      body |> to_string |> :jiffy.decode(jiffy_options())
+    catch
+      {:error, _} -> body
+    end
   end
 
   defp jiffy_options do

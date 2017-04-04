@@ -30,11 +30,11 @@ defmodule Elastix.HTTPTest do
 
   test "process_response_body should parse the json body into a map" do
     body = "{\"some\":\"json\"}"
-    assert HTTP.process_response_body(body) == %{"some" => "json"}
+    assert HTTP.process_response_body(body, []) == %{"some" => "json"}
   end
 
   test "process_response_body returns the raw body if it cannot be parsed as json" do
     body = "no_json"
-    assert HTTP.process_response_body(body) == body
+    assert HTTP.process_response_body(body, []) == body
   end
 end
